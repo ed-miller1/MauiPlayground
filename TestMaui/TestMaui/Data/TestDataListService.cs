@@ -26,8 +26,6 @@ namespace TestMaui.Data
 
         public void AddDataItem(TestData item)
         {
-            //var instance = TestDataListSingleton.Instance;
-            //instance.Add(item);
             TestDataListSingleton.Instance.Add(item);
         }
     }

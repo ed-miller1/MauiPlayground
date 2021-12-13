@@ -19,20 +19,15 @@
                         <EditForm Model="@TestDataItem" OnValidSubmit="@HandleValidSubmit">  
                             <DataAnnotationsValidator />  
                             <ValidationSummary />  
-                            @*<div class="form-group">  
-                                <label for="lastName">Last name: </label>  
-                                <InputText id="Id" class="form-control" @bind-Value="@TestDataItem.Id" placeholder="" readonly>@Guid.NewGuid</InputText>  
-                                <ValidationMessage For="@(() => Employee.LastName)" />  
-                            </div>  *@
                             <div class="form-group">  
                                 <label for="DataItem1">Data Item 1: </label>  
                                 <InputText id="dataItem1" class="form-control" @bind-Value="@TestDataItem.Item1" placeholder="Enter data item 1"></InputText>  
-                                @*<ValidationMessage For="@(() => Employee.FirstName)" />  *@
+                                @*<ValidationMessage For="@(() => TestDataItem.Item1)" />  *@
                             </div>  
                             <div class="form-group">  
                                 <label for="DataItem2">Data Item 2: </label>  
                                 <InputText id="dataItem2" class="form-control" @bind-Value="@TestDataItem.Item2" placeholder="Enter data item 2"></InputText>  
-                                @*<ValidationMessage For="@(() => Employee.Email)" />  *@
+                                @*<ValidationMessage For="@(() => TestDataItem.Item2)" />  *@
                             </div>  
                             <button type="submit" class="btn btn-primary">Save Item</button>  
                             <a class="btn btn-outline-primary" @onclick="@Close">Close</a>  
