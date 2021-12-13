@@ -1,0 +1,57 @@
+﻿@page "/testdatalist"
+
+@using TestMaui.Data
+@inject TestDataListService TestDataListService
+
+<h3>TestDataList</h3>
+
+@if(dataList == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<AddTestDataItem @ref="AddTestDataItem" CloseEventCallback="@AddEmployeeDialog_OnDialogClose"/> 
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Item1</th>
+				<th>Item2</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in dataList)
+			{
+				<tr>
+					<td>@item.Id</td>
+					<td>@item.Item1</td>
+					<td>@item.Item2</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<button class="btn btn-primary" @onclick="AddDataToList">+</button>
+}
+
+@code {
+	//private TestData TestDataItem;
+	private List<TestData> dataList;
+	//private bool ShowDialog;
+	public AddTestDataItem AddTestDataItem {  get;  set;  }  
+
+	protected override async Task OnInitializedAsync()
+	{
+		dataList = await TestDataListService.GetTestDataListAsync();
+	}
+
+	private void AddDataToList()
+	{
+		AddTestDataItem.Show();
+	}
+
+	public async void AddEmployeeDialog_OnDialogClose() {  
+        dataList = await TestDataListService.GetTestDataListAsync();  
+        StateHasChanged();  
+    }  
+}

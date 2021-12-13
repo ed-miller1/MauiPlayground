@@ -1,0 +1,77 @@
+﻿@page "/AddTestDataItem"
+
+@using TestMaui.Data
+@using Microsoft.AspNetCore.Components
+
+@inject TestDataListService TestDataListService
+
+@if(ShowDialog) {    
+        <div class="modal fade show d-block" id="exampleModal" tabindex="-1" role="dialog">  
+            <div class="modal-dialog" role="document">  
+                <div class="modal-content">  
+                    <div class="modal-header">  
+                        <h5 class="modal-title" id="titleLabel">Add Test Data Item</h5>  
+                        <button type="button" class="close" @onclick="@Close" data-dismiss="modal" aria-label="Close">  
+                            <span aria-hidden="true">×</span>  
+                        </button>  
+                    </div>  
+                    <div class="modal-body">  
+                        <EditForm Model="@TestDataItem" OnValidSubmit="@HandleValidSubmit">  
+                            <DataAnnotationsValidator />  
+                            <ValidationSummary />  
+                            @*<div class="form-group">  
+                                <label for="lastName">Last name: </label>  
+                                <InputText id="Id" class="form-control" @bind-Value="@TestDataItem.Id" placeholder="" readonly>@Guid.NewGuid</InputText>  
+                                <ValidationMessage For="@(() => Employee.LastName)" />  
+                            </div>  *@
+                            <div class="form-group">  
+                                <label for="DataItem1">Data Item 1: </label>  
+                                <InputText id="dataItem1" class="form-control" @bind-Value="@TestDataItem.Item1" placeholder="Enter data item 1"></InputText>  
+                                @*<ValidationMessage For="@(() => Employee.FirstName)" />  *@
+                            </div>  
+                            <div class="form-group">  
+                                <label for="DataItem2">Data Item 2: </label>  
+                                <InputText id="dataItem2" class="form-control" @bind-Value="@TestDataItem.Item2" placeholder="Enter data item 2"></InputText>  
+                                @*<ValidationMessage For="@(() => Employee.Email)" />  *@
+                            </div>  
+                            <button type="submit" class="btn btn-primary">Save Item</button>  
+                            <a class="btn btn-outline-primary" @onclick="@Close">Close</a>  
+                        </EditForm>  
+                    </div>  
+                </div>  
+            </div>  
+        </div>  
+    }
+
+@code {
+
+    [Parameter]  
+    public EventCallback <bool> CloseEventCallback { get; set; }
+    private TestData TestDataItem = new TestData
+    {
+            Id = Guid.NewGuid()
+    };
+    public bool ShowDialog;
+
+    public void Show() {  
+        ResetDialog();  
+        ShowDialog = true;  
+        StateHasChanged();  
+    }  
+    public void Close() {  
+        ShowDialog = false;  
+        StateHasChanged();  
+    }  
+    private void ResetDialog() {
+        TestData TestDataItem = new TestData
+            {
+                Id = Guid.NewGuid()
+            }; 
+    }  
+    protected async Task HandleValidSubmit() { 
+        await TestDataListService.AddDataItemAsync(TestDataItem);
+        ShowDialog = false;  
+        await CloseEventCallback.InvokeAsync(true);  
+        StateHasChanged();  
+    }  
+}
